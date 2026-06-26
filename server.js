@@ -139,7 +139,13 @@ app.get('/global/ingredients/search', async (req, res) => {
     }
 });
 
-// Start Server
-app.listen(PORT, () => {
-    console.log(`🚀 Server is running on http://localhost:${PORT}`);
-});
+// Start Server only when running locally (e.g. `node server.js`)
+// On Vercel, this file is imported as a serverless function, so we skip listen()
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`🚀 Server is running on http://localhost:${PORT}`);
+    });
+}
+
+// Export the app so Vercel can use it as a serverless function
+module.exports = app;
